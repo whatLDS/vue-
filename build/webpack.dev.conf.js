@@ -22,11 +22,13 @@ var apiRoutes = express.Router()
 var fs = require('fs')
 apiRoutes.route('/:apiName')
   .all(function (req, res) {
+    console.log(req.query)
     fs.readFile('./data.json', 'utf8', function (err, data) {
       if (err) throw err
       var datas = JSON.parse(data)
       if (datas[req.params.apiName]) {
-        res.json(datas[req.params.apiName])
+        JSON.stringify(datas[req.params.apiName])
+        res.send(req.query.callback+'('+   JSON.stringify(datas[req.params.apiName])+')')
       }
       else {
         res.send('no such api name')

@@ -8,6 +8,10 @@ export default new Router({
   mode: 'history',
   routes: [
     {
+      path: '/',
+      component: goods
+    },
+    {
       path: '/goods',
       component: goods
     },
