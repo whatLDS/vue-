@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-header :seller="seller"></v-header>
     <div class="tab ">
       <router-link v-for="item in products" :key="item.label" :value="item.value" :to="{ path: item.path }" tag="div"
                    class="tab-item" active-class="active">
@@ -10,8 +11,12 @@
   </div>
 </template>
 <script>
+  import header from './components/header/header'
   export default {
     name: 'App',
+    components: {
+      'v-header': header
+    },
     data () {
       return {
         products: [
@@ -27,12 +32,13 @@
             name: '商家',
             path: '/seller'
           }
-        ]
+        ],
+        seller: {}
       }
     },
     created () {
-      this.$http.jsonp('http://192.168.43.141:8081/api/goods').then((res) => {
-          this.goods = res.data
+      this.$http.jsonp('http://192.168.43.141:8081/api/seller').then((res) => {
+          this.seller = res.data
           console.log(res.data)
       }, (error) => {
         console.log(error)
