@@ -37,7 +37,7 @@
       }
     },
     created () {
-      this.$http.jsonp('http://192.168.43.141:8081/api/seller').then((res) => {
+      this.$http.jsonp('http://127.0.0.1:8081/api/seller').then((res) => {
           this.seller = res.data
           console.log(res.data)
       }, (error) => {
