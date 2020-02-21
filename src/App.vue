@@ -7,7 +7,7 @@
         {{ item.name }}
       </router-link>
     </div>
-    <router-view keep-alive></router-view>
+    <router-view  :seller="seller" keep-alive></router-view>
   </div>
 </template>
 <script>
