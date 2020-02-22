@@ -123,7 +123,6 @@
       },
       _drop (target) {
         // 体验优化,异步执行下落动画
-        console.log(target)
         this.$nextTick(() => {
           this.$refs.shopcart.drop(target)
         })

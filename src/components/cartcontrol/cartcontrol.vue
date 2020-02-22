@@ -52,9 +52,7 @@
     .cart-decrease
       display: inline-block
       padding: 6px
-      transform: translate3d(0, 0, 0)
       opacity: 1
-      transform: rotate(0)
       .inner
         display: inline-block
         line-height: 24px
@@ -64,10 +62,8 @@
         opacity: 0
         transform: translate3d(24, 0, 0)
       &.move-enter-active, &.move-leave-active
-        transition: all .4s linear
-        transform: translate3d(0, 0, 0)
-        transform: rotate(180deg)
-
+        transition: all 0.2s linear
+        transform: translate3d(0, 0, 0) rotate(180deg)
     .cart-count
       display: inline-block
       vertical-align: top
