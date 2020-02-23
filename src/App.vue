@@ -26,7 +26,7 @@
           },
           {
             name: '评论',
-            path: '/comments'
+            path: '/ratings'
           },
           {
             name: '商家',
