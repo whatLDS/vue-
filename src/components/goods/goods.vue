@@ -75,6 +75,7 @@
           let height1 = this.listHeight[i]
           let height2 = this.listHeight[i + 1]
           if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+            console.log(i)
             return i
           }
         }
@@ -117,10 +118,11 @@
         if (!event._constructed) {
           return
         }
-        console.log(index)
-        let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
-        let el = foodList[index]
-        this.foodsScroll.scrollToElement(el, 300)
+        // console.log(index)
+        // let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
+        // let el = foodList[index]
+        // this.foodsScroll.scrollToElement(el, 300)
+        this.foodsScroll.scrollTo(0, -this.listHeight[index], 300)
       },
       initScroll () {
         this.menuScroll = new BScroll(this.$refs.menuWrapper, {click: true})
