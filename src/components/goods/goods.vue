@@ -1,47 +1,50 @@
 <template>
-  <div class="goods">
-    <div class="menu-wrapper" ref="menuWrapper">
-      <ul>
-        <li v-for="(item,index) in goods" class="menu-item" :key=index :class="{'current': currentIndex === index}"
-            @click="selectMenu(index,$event)">
+  <div>
+    <div class="goods">
+      <div class="menu-wrapper" ref="menuWrapper">
+        <ul>
+          <li v-for="(item,index) in goods" class="menu-item" :key=index :class="{'current': currentIndex === index}"
+              @click="selectMenu(index,$event)">
           <span class="text border-1px">
              <span v-show="item.type>0" class="icon" :class="classMap[item.type]"> </span>
             {{item.name}}
           </span>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="foods-wrapper" ref="foodsWrapper">
+        <ul>
+          <li v-for="(item,index) in goods" class="food-list food-list-hook" :key=index>
+            <h1 class="title">{{item.name}}</h1>
+            <ul>
+              <li v-for="(food,index) in item.foods" class="food-item" :key=index @click="selectFood(food,$event)">
+                <div class="icon">
+                  <img :src="food.icon" style="width: 57px;height: 57px" alt="">
+                </div>
+                <div class="content">
+                  <h2 class="name">{{food.name}}</h2>
+                  <p class="desc">{{food.description}}</p>
+                  <div class="extra">
+                    <span>月售{{food.sellCount}}份</span>
+                    <span>好评率{{food.rating}}%</span>
+                  </div>
+                  <div class="price">
+                    <span class="now">￥{{food.price}}</span>
+                    <span v-show="food.oldPrice">￥{{food.oldPrice}}</span>
+                  </div>
+                  <div class="cartcontrol-wrapper">
+                    <cartcontrol :food="food" @addcart='_drop'></cartcontrol>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <shop-cart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice"
+                 :min-price="seller.minPrice"></shop-cart>
     </div>
-    <div class="foods-wrapper" ref="foodsWrapper">
-      <ul>
-        <li v-for="(item,index) in goods" class="food-list food-list-hook" :key=index>
-          <h1 class="title">{{item.name}}</h1>
-          <ul>
-            <li v-for="(food,index) in item.foods" class="food-item" :key=index>
-              <div class="icon">
-                <img :src="food.icon" style="width: 57px;height: 57px" alt="">
-              </div>
-              <div class="content">
-                <h2 class="name">{{food.name}}</h2>
-                <p class="desc">{{food.description}}</p>
-                <div class="extra">
-                  <span>月售{{food.sellCount}}份</span>
-                  <span>好评率{{food.rating}}%</span>
-                </div>
-                <div class="price">
-                  <span class="now">￥{{food.price}}</span>
-                  <span v-show="food.oldPrice">￥{{food.oldPrice}}</span>
-                </div>
-                <div class="cartcontrol-wrapper">
-                  <cartcontrol :food="food" @addcart='_drop'></cartcontrol>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-    <shop-cart ref="shopcart" :select-foods="selectFoods" :delivery-price="seller.deliveryPrice"
-               :min-price="seller.minPrice"></shop-cart>
+    <food :food="selectedFood" ref="food" @add="_drop"></food>
   </div>
 </template>
 
@@ -49,7 +52,7 @@
   import BScroll from 'better-scroll'
   import cartcontrol from '../cartcontrol/cartcontrol'
   import ShopCart from '../shopcart/shopcart'
-
+  import food from '../food/food'
   export default {
     name: 'goods',
     data () {
@@ -57,7 +60,8 @@
         goods: [],
         listHeight: [],
         scrollY: 0,
-        selectedFoods: {}
+        selectedFoods: {},
+        selectedFood: {}
       }
     },
     props: {
@@ -102,10 +106,18 @@
       })
     },
     methods: {
+      selectFood (food, event) {
+        if (!event._constructed) {
+          return
+        }
+        this.selectedFood = food
+        this.$refs.food.show()
+      },
       selectMenu (index, event) {
         if (!event._constructed) {
           return
         }
+        console.log(index)
         let foodList = this.$refs.foodsWrapper.getElementsByClassName('food-list-hook')
         let el = foodList[index]
         this.foodsScroll.scrollToElement(el, 300)
@@ -118,7 +130,6 @@
         })
         this.foodsScroll.on('scroll', (pos) => {
           this.scrollY = Math.abs(Math.round(pos.y))
-          console.log(this.scrollY)
         })
       },
       _drop (target) {
@@ -141,7 +152,8 @@
     },
     components: {
       cartcontrol,
-      ShopCart
+      ShopCart,
+      food
     }
   }
 </script>

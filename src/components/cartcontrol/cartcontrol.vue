@@ -30,7 +30,7 @@
         } else {
           this.food.count++
         }
-        console.log(this.food.count)
+        console.log(target)
         this.$emit('addcart', target)
       },
       decreaseCart (event) {
